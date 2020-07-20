@@ -1,3 +1,5 @@
+@import "../../assets/sass/colors"
+
 @mixin button($btn-name, $btn-color, $btn-text-color)
   &.#{$btn-name}
     background: $btn-color
@@ -34,6 +36,7 @@
   &.fluid
     display: block
 
-  @include button('success', #4DD599, #fff)
-  @include button('secondary', #7f8c8d, #fff)
-  @include button('danger', #e74c3c, #fff)
+  @include button('success', $success, #fff)
+  @include button('secondary', $secondary, #fff)
+  @include button('danger', $danger, #fff)
+  @include button('primary', $primary, #fff)
