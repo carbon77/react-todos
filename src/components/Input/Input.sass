@@ -1,0 +1,47 @@
+@import "../../assets/sass/colors"
+
+@mixin inputLine($name, $color)
+  &.#{$name} span
+    background: $color
+
+.form-control
+  position: relative
+  display: inline-block
+  overflow: hidden
+
+  input
+    width: 100%
+    padding: 8px 10px
+    font-size: 1em
+    font-weight: 600
+    color: #5C5C5C
+    border: 1px solid #EFEFEF
+    border-radius: 4px
+    transition: all .2s ease
+    outline: none
+
+    &::placeholder
+      color: #c7c7c7
+
+    &:focus + span
+      right: 0
+      left: 0
+
+  span
+    content: ''
+    position: absolute
+    bottom: 0
+    right: 50%
+    left: 50%
+    height: 2px
+    transition: all .35s ease
+
+  &__errors
+    color: $danger
+    font-size: .9em
+    margin-bottom: 3px
+
+  @include inputLine('success', $success)
+  @include inputLine('primary', $primary)
+  @include inputLine('danger', $danger)
+  @include inputLine('secondary', $secondary)
