@@ -1,0 +1,39 @@
+@mixin button($btn-name, $btn-color, $btn-text-color)
+  &.#{$btn-name}
+    background: $btn-color
+    border-color: $btn-color
+    color: $btn-text-color
+
+    &:hover
+      background: darken($btn-color, 5%)
+      border-color: darken($btn-color, 5%)
+
+    &:active
+      background: darken($btn-color, 10%)
+      border-color: darken($btn-color, 10%)
+
+
+.btn
+  padding: 10px 20px
+  font-size: 1em
+  font-weight: 600
+  border: 2px solid
+  border-radius: 4px
+  background: transparent
+  cursor: pointer
+  transition: all .1s ease
+  outline: none
+  text-decoration: none
+
+  &:disabled
+    background: #F4F6F8 !important
+    border-color: #F4F6F8 !important
+    color: #9c9c9c !important
+    cursor: default !important
+
+  &.fluid
+    display: block
+
+  @include button('success', #4DD599, #fff)
+  @include button('secondary', #7f8c8d, #fff)
+  @include button('danger', #e74c3c, #fff)
