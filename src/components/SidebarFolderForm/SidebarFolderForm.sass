@@ -1,0 +1,48 @@
+.sidebar-form
+  position: absolute
+  left: 10%
+  padding: 18px
+  width: 235px
+  background: #fff
+  border-radius: 10px
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.05)
+  transition: all .2s ease
+
+  &.close
+    opacity: 0
+    transform: translateY(20px)
+
+  &__close
+    position: absolute
+    padding: 5px
+    top: -10px
+    right: -10px
+    border-radius: 10em
+    background: #5C5C5C
+    color: #ffffff
+    font-size: 16px
+    font-weight: 600
+    cursor: pointer
+    user-select: none
+
+  &__colors
+    margin: 5px 0
+
+  &__radio-color
+    span
+      display: inline-block
+      width: 20px
+      height: 20px
+      border: 2px solid transparent
+      border-radius: 10em
+      cursor: pointer
+      transition: all .1s ease
+
+    & + &
+      margin-left: 5px
+
+    input[type=radio]
+      display: none
+
+      &:checked + span
+        border: 2px solid #525252

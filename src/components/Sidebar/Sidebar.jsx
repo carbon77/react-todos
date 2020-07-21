@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './Sidebar.sass'
+import SidebarFolderForm from '../SidebarFolderForm/SidebarFolderForm'
 
 const Sidebar = ({ items }) => {
+  const [isFormShowed, setIsFormShowed] = React.useState(false)
+
   return (
     <div className="sidebar">
       <ul className="sidebar__list">
@@ -29,12 +32,18 @@ const Sidebar = ({ items }) => {
           </React.Fragment>
         ))}
         {!items.length || <li className="sidebar__divider" />}
-        <li className="sidebar__item text-muted">
+        <li
+          className="sidebar__item text-muted"
+          onClick={() => setIsFormShowed(true)}
+        >
           <div className="sidebar__icon">
             <div className="material-icons">add</div>
           </div>
           <div className="sidebar__text">Add folder</div>
         </li>
+        {isFormShowed && (
+          <SidebarFolderForm onClose={() => setIsFormShowed(false)} />
+        )}
       </ul>
     </div>
   )
