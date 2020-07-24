@@ -24,6 +24,7 @@ class API {
     return fetch(this._getUrl(url), {
       method: 'GET',
       ...options,
+      ...this.options,
     })
   }
 
@@ -32,6 +33,7 @@ class API {
       method: 'POST',
       body: JSON.stringify(data),
       ...options,
+      ...this.options,
     })
   }
 
@@ -40,6 +42,7 @@ class API {
       method: 'PUT',
       body: JSON.stringify(data),
       ...options,
+      ...this.options,
     })
   }
 
@@ -47,8 +50,13 @@ class API {
     return fetch(this._getUrl(url), {
       method: 'DELETE',
       ...options,
+      ...this.options,
     })
   }
 }
 
-export default new API(BASE_URL)
+export default new API(BASE_URL, {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
