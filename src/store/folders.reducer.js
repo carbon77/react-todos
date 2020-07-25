@@ -20,7 +20,7 @@ function foldersReducer(state, { type, payload }) {
     case DELETE_FOLDER:
       return {
         ...state,
-        folders: state.folders.filter((folder) => folder !== payload.id),
+        folders: state.folders.filter((folder) => folder.id !== payload.id),
       }
     case UPDATE_FOLDER:
       return {
