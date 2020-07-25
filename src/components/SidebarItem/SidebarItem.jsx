@@ -3,10 +3,20 @@ import PropType from 'prop-types'
 import classNames from 'classnames'
 
 import './SidebarItem.sass'
+import { useHistory } from 'react-router-dom'
 
-const SidebarItem = ({ text, className, info, onClick, actions, ...props }) => {
+const SidebarItem = ({
+  text,
+  className,
+  info,
+  onClick,
+  actions,
+  to,
+  ...props
+}) => {
   const [showActions, setShowActions] = React.useState(false)
   const [actionsClasses, setActionsClasses] = React.useState('')
+  const history = useHistory()
   const itemClasses = classNames('sidebar__item', className)
   let infoElem
 
@@ -26,10 +36,18 @@ const SidebarItem = ({ text, className, info, onClick, actions, ...props }) => {
     infoElem = <span className="material-icons">{info}</span>
   }
 
+  function onItemClick() {
+    onClick()
+
+    if (to) {
+      history.push(to)
+    }
+  }
+
   return (
     <li
       className={itemClasses}
-      onClick={onClick}
+      onClick={onItemClick}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -38,7 +56,7 @@ const SidebarItem = ({ text, className, info, onClick, actions, ...props }) => {
       {actions && (
         <div className={`sidebar__actions ${actionsClasses}`}>
           <div className="material-icons">edit</div>
-          <div className="material-icons">close</div>
+          <div className="material-icons">delete</div>
         </div>
       )}
     </li>
@@ -50,6 +68,7 @@ SidebarItem.propTypes = {
   className: PropType.string,
   info: PropType.string,
   actions: PropType.bool,
+  to: PropType.string,
   onClick: PropType.func,
 }
 
@@ -57,6 +76,7 @@ SidebarItem.defaultProps = {
   className: '',
   info: '#C9D1D3',
   actions: false,
+  to: null,
   onClick() {},
 }
 

@@ -13,7 +13,11 @@ const Sidebar = ({ items }) => {
       <ul className="sidebar__list">
         {!!items.length && (
           <React.Fragment>
-            <SidebarItem text={'All todos'} info={'format_list_bulleted'} />
+            <SidebarItem
+              to={'/todos'}
+              text={'All todos'}
+              info={'format_list_bulleted'}
+            />
             <li className="sidebar__divider" />
           </React.Fragment>
         )}
@@ -26,6 +30,7 @@ const Sidebar = ({ items }) => {
               <SidebarItem
                 text={item.text}
                 info={item.icon || item.color}
+                to={`/todos/${item.id}`}
                 actions
               />
             )}
