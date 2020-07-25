@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import './SidebarItem.sass'
 import { useHistory } from 'react-router-dom'
+import Loader from '../Loader/Loader'
 
 const SidebarItem = ({
   text,
@@ -16,6 +17,7 @@ const SidebarItem = ({
 }) => {
   const [showActions, setShowActions] = React.useState(false)
   const [actionsClasses, setActionsClasses] = React.useState('')
+  const [deleteLoading, setDeleteLoading] = React.useState(false)
   const history = useHistory()
   const itemClasses = classNames('sidebar__item', className)
   let infoElem
@@ -36,12 +38,23 @@ const SidebarItem = ({
     infoElem = <span className="material-icons">{info}</span>
   }
 
-  function onItemClick() {
+  function onItemClick(event) {
+    const { target } = event
+
+    if (target.classList.contains('sidebar__action')) {
+      return
+    }
+
     onClick()
 
     if (to) {
       history.push(to)
     }
+  }
+
+  async function deleteFolder() {
+    setDeleteLoading(true)
+    await props.deleteFolder(props.folderId, () => setDeleteLoading(false))
   }
 
   return (
@@ -55,8 +68,24 @@ const SidebarItem = ({
       <div className="sidebar__text">{text}</div>
       {actions && (
         <div className={`sidebar__actions ${actionsClasses}`}>
-          <div className="material-icons">edit</div>
-          <div className="material-icons">delete</div>
+          <div
+            className="material-icons sidebar__action"
+            title={'Change folder name'}
+          >
+            edit
+          </div>
+
+          {deleteLoading ? (
+            <Loader inline size={'15px'} borderWidth={2} />
+          ) : (
+            <div
+              className="material-icons sidebar__action"
+              title={'Delete folder'}
+              onClick={deleteFolder}
+            >
+              delete
+            </div>
+          )}
         </div>
       )}
     </li>

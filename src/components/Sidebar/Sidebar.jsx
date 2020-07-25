@@ -33,6 +33,18 @@ const Sidebar = (props) => {
     })
   }
 
+  async function deleteFolder(id, callback) {
+    await foldersAPI
+      .deleteFolder(id)
+      .then(callback)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_FOLDER',
+          payload: { id },
+        })
+      })
+  }
+
   return (
     <div className="sidebar">
       {loading ? (
@@ -59,6 +71,8 @@ const Sidebar = (props) => {
                   text={folder.text}
                   info={folder.icon || folder.color}
                   to={`/todos/${folder.id}`}
+                  deleteFolder={deleteFolder}
+                  folderId={folder.id}
                   actions
                 />
               )}
