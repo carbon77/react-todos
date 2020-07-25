@@ -25,6 +25,14 @@ const Sidebar = (props) => {
     })
   }, [])
 
+  async function addFolder(text, color) {
+    const folder = await foldersAPI.createFolder(text, color)
+    dispatch({
+      type: 'ADD_FOLDER',
+      payload: folder,
+    })
+  }
+
   return (
     <div className="sidebar">
       {loading ? (
@@ -64,7 +72,10 @@ const Sidebar = (props) => {
             onClick={() => setIsFormShowed(true)}
           />
           {isFormShowed && (
-            <SidebarFolderForm onClose={() => setIsFormShowed(false)} />
+            <SidebarFolderForm
+              addFolder={addFolder}
+              onClose={() => setIsFormShowed(false)}
+            />
           )}
         </ul>
       )}

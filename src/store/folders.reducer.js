@@ -9,6 +9,7 @@ function foldersReducer(state, { type, payload }) {
       return { ...state, folders: payload.folders }
     case ADD_FOLDER:
       const folder = {
+        id: payload.id,
         text: payload.text,
         color: payload.color,
       }

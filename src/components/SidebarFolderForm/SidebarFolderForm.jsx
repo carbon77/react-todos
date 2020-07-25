@@ -4,21 +4,23 @@ import Button from '../Button/Button'
 
 import './SidebarFolderForm.sass'
 
-const SidebarFolderForm = ({ onClose }) => {
+const colors = [
+  '#c9c9c9',
+  '#42B883',
+  '#64C4ED',
+  '#C355F5',
+  '#FFBBCC',
+  '#FF6464',
+  '#09011A',
+  '#B6E6BD',
+]
+
+const SidebarFolderForm = ({ onClose, addFolder }) => {
   const [folderName, setFolderName] = React.useState('')
-  const [selectedColor, setSelectedColor] = React.useState('#E5E5E5')
+  const [selectedColor, setSelectedColor] = React.useState(colors[0])
   const [error, setError] = React.useState('')
   const [classes, setClasses] = React.useState(['sidebar-form', 'close'])
-  const colors = [
-    '#E5E5E5',
-    '#42B883',
-    '#64C4ED',
-    '#C355F5',
-    '#FFBBCC',
-    '#FF6464',
-    '#09011A',
-    '#B6E6BD',
-  ]
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
     setClasses(['sidebar-form'])
@@ -29,15 +31,18 @@ const SidebarFolderForm = ({ onClose }) => {
     setTimeout(onClose, 300)
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault()
+    setLoading(true)
 
     if (!folderName) {
       setError('This field is required!')
+      setLoading(false)
       return
     }
 
     setError('')
+    await addFolder(folderName, selectedColor)
     closeForm()
   }
 
@@ -63,7 +68,7 @@ const SidebarFolderForm = ({ onClose }) => {
           </label>
         ))}
       </div>
-      <Button type={'submit'} color={'success'} fluid>
+      <Button type={'submit'} color={'success'} disabled={loading} fluid>
         Add
       </Button>
       <span className="sidebar-form__close material-icons" onClick={closeForm}>
