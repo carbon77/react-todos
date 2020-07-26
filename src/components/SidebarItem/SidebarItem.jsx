@@ -68,13 +68,6 @@ const SidebarItem = ({
       <div className="sidebar__text">{text}</div>
       {actions && (
         <div className={`sidebar__actions ${actionsClasses}`}>
-          <div
-            className="material-icons sidebar__action"
-            title={'Change folder name'}
-          >
-            edit
-          </div>
-
           {deleteLoading ? (
             <Loader inline size={'15px'} borderWidth={2} />
           ) : (
