@@ -1,67 +1,100 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import './Sidebar.sass'
 import SidebarFolderForm from '../SidebarFolderForm/SidebarFolderForm'
+import SidebarItem from '../SidebarItem/SidebarItem'
+import foldersReducer from '../../store/folders.reducer'
+import foldersAPI from '../../api/folders.api'
+import Loader from '../Loader/Loader'
 
-const Sidebar = ({ items }) => {
+const Sidebar = (props) => {
+  const [state, dispatch] = React.useReducer(foldersReducer, { folders: [] })
   const [isFormShowed, setIsFormShowed] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoading(true)
+    foldersAPI.fetchFolders().then((data) => {
+      dispatch({
+        type: 'SET_FOLDERS',
+        payload: {
+          folders: data,
+        },
+      })
+      setLoading(false)
+    })
+  }, [])
+
+  async function addFolder(text, color) {
+    const folder = await foldersAPI.createFolder(text, color)
+    dispatch({
+      type: 'ADD_FOLDER',
+      payload: folder,
+    })
+  }
+
+  async function deleteFolder(id, callback) {
+    await foldersAPI
+      .deleteFolder(id)
+      .then(callback)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_FOLDER',
+          payload: { id },
+        })
+      })
+  }
 
   return (
     <div className="sidebar">
-      <ul className="sidebar__list">
-        {items.map((item, index) => (
-          <React.Fragment key={index}>
-            {item.divider ? (
+      {loading ? (
+        <Loader />
+      ) : (
+        <ul className="sidebar__list">
+          {!!state.folders.length && (
+            <React.Fragment>
+              <SidebarItem
+                to={'/todos'}
+                text={'All todos'}
+                info={'format_list_bulleted'}
+              />
               <li className="sidebar__divider" />
-            ) : (
-              <li className="sidebar__item">
-                <div className="sidebar__icon">
-                  {item.icon ? (
-                    <span className="material-icons">{item.icon}</span>
-                  ) : (
-                    <div
-                      className="sidebar__color"
-                      style={{ backgroundColor: item.color || '#C9D1D3' }}
-                    />
-                  )}
-                </div>
-                <div className="sidebar__text">{item.text}</div>
-              </li>
-            )}
-          </React.Fragment>
-        ))}
-        {!items.length || <li className="sidebar__divider" />}
-        <li
-          className="sidebar__item text-muted"
-          onClick={() => setIsFormShowed(true)}
-        >
-          <div className="sidebar__icon">
-            <div className="material-icons">add</div>
-          </div>
-          <div className="sidebar__text">Add folder</div>
-        </li>
-        {isFormShowed && (
-          <SidebarFolderForm onClose={() => setIsFormShowed(false)} />
-        )}
-      </ul>
+            </React.Fragment>
+          )}
+
+          {state.folders.map((folder, index) => (
+            <React.Fragment key={index}>
+              {folder.divider ? (
+                <li className="sidebar__divider" />
+              ) : (
+                <SidebarItem
+                  text={folder.text}
+                  info={folder.icon || folder.color}
+                  to={`/todos/${folder.id}`}
+                  deleteFolder={deleteFolder}
+                  folderId={folder.id}
+                  actions
+                />
+              )}
+            </React.Fragment>
+          ))}
+          {!state.folders.length || <li className="sidebar__divider" />}
+          <SidebarItem
+            info={'add'}
+            className="text-muted"
+            text={'Add folder'}
+            onClick={() => setIsFormShowed(true)}
+          />
+          {isFormShowed && (
+            <SidebarFolderForm
+              addFolder={addFolder}
+              onClose={() => setIsFormShowed(false)}
+            />
+          )}
+        </ul>
+      )}
     </div>
   )
-}
-
-Sidebar.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string,
-      icon: PropTypes.string,
-      color: PropTypes.string,
-      divider: PropTypes.bool,
-    })
-  ),
-}
-
-Sidebar.defaultProps = {
-  items: [],
 }
 
 export default Sidebar
