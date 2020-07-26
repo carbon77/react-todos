@@ -11,9 +11,10 @@ const Button = ({
   disabled,
   onClick,
   fluid,
+  size,
   ...attrs
 }) => {
-  const classes = classNames('btn', className, color, { fluid })
+  const classes = classNames('btn', className, color, size, { fluid })
 
   return (
     <button
@@ -30,9 +31,10 @@ const Button = ({
 Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  color: PropTypes.oneOf(['secondary', 'success', 'danger']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'success', 'danger']),
   disabled: PropTypes.bool,
   fluid: PropTypes.bool,
+  size: PropTypes.oneOf(['', 'large', 'small']),
   onClick() {},
 }
 
@@ -42,6 +44,7 @@ Button.defaultProps = {
   color: 'secondary',
   disabled: false,
   fluid: false,
+  size: '',
   onClick() {},
 }
 
