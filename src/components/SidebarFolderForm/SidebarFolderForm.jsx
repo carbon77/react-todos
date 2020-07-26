@@ -19,17 +19,7 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
   const [folderName, setFolderName] = React.useState('')
   const [selectedColor, setSelectedColor] = React.useState(colors[0])
   const [error, setError] = React.useState('')
-  const [classes, setClasses] = React.useState(['sidebar-form', 'close'])
   const [loading, setLoading] = React.useState(false)
-
-  React.useEffect(() => {
-    setClasses(['sidebar-form'])
-  }, [])
-
-  function closeForm() {
-    setClasses(['sidebar-form', 'close'])
-    setTimeout(onClose, 300)
-  }
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -43,11 +33,11 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
 
     setError('')
     await addFolder(folderName, selectedColor)
-    closeForm()
+    onClose()
   }
 
   return (
-    <form className={classes.join(' ')} onSubmit={onSubmit}>
+    <form className={'sidebar__form'} onSubmit={onSubmit}>
       <Input
         placeholder={'Folder name'}
         autoComplete={'off'}
@@ -55,9 +45,9 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
         error={error}
         onChange={({ target }) => setFolderName(target.value)}
       />
-      <div className="sidebar-form__colors">
+      <div className="sidebar__form__colors">
         {colors.map((color, index) => (
-          <label className={'sidebar-form__radio-color'} key={index}>
+          <label className={'sidebar__form__radio-color'} key={index}>
             <input
               type="radio"
               checked={color === selectedColor}
@@ -71,7 +61,7 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
       <Button type={'submit'} color={'success'} disabled={loading} fluid>
         Add
       </Button>
-      <span className="sidebar-form__close material-icons" onClick={closeForm}>
+      <span className="sidebar__form__close material-icons" onClick={onClose}>
         close
       </span>
     </form>
