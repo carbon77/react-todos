@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 
 import './Sidebar.sass'
@@ -12,6 +13,7 @@ const Sidebar = (props) => {
   const [state, dispatch] = React.useReducer(foldersReducer, { folders: [] })
   const [isFormShowed, setIsFormShowed] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const location = useLocation()
 
   React.useEffect(() => {
     setLoading(true)
@@ -58,6 +60,7 @@ const Sidebar = (props) => {
                 to={'/todos'}
                 text={'All todos'}
                 info={'format_list_bulleted'}
+                active={'/todos' === location.pathname}
               />
               <li className="sidebar__divider" />
             </>
@@ -72,6 +75,7 @@ const Sidebar = (props) => {
               deleteFolder={deleteFolder}
               folderId={folder.id}
               actions
+              active={`/todos/${folder.id}` === location.pathname}
             />
           ))}
 
