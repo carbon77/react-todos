@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSSTransition } from 'react-transition-group'
 
 import './Sidebar.sass'
 import SidebarFolderForm from '../SidebarFolderForm/SidebarFolderForm'
@@ -52,32 +53,28 @@ const Sidebar = (props) => {
       ) : (
         <ul className="sidebar__list">
           {!!state.folders.length && (
-            <React.Fragment>
+            <>
               <SidebarItem
                 to={'/todos'}
                 text={'All todos'}
                 info={'format_list_bulleted'}
               />
               <li className="sidebar__divider" />
-            </React.Fragment>
+            </>
           )}
 
-          {state.folders.map((folder, index) => (
-            <React.Fragment key={index}>
-              {folder.divider ? (
-                <li className="sidebar__divider" />
-              ) : (
-                <SidebarItem
-                  text={folder.text}
-                  info={folder.icon || folder.color}
-                  to={`/todos/${folder.id}`}
-                  deleteFolder={deleteFolder}
-                  folderId={folder.id}
-                  actions
-                />
-              )}
-            </React.Fragment>
+          {state.folders.map((folder) => (
+            <SidebarItem
+              key={folder.id}
+              text={folder.text}
+              info={folder.icon || folder.color}
+              to={`/todos/${folder.id}`}
+              deleteFolder={deleteFolder}
+              folderId={folder.id}
+              actions
+            />
           ))}
+
           {!state.folders.length || <li className="sidebar__divider" />}
           <SidebarItem
             info={'add'}
@@ -85,12 +82,17 @@ const Sidebar = (props) => {
             text={'Add folder'}
             onClick={() => setIsFormShowed(true)}
           />
-          {isFormShowed && (
+          <CSSTransition
+            in={isFormShowed}
+            timeout={300}
+            unmountOnExit
+            classNames={'sidebar__form'}
+          >
             <SidebarFolderForm
               addFolder={addFolder}
               onClose={() => setIsFormShowed(false)}
             />
-          )}
+          </CSSTransition>
         </ul>
       )}
     </div>

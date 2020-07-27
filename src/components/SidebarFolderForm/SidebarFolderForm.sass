@@ -1,4 +1,6 @@
-.sidebar-form
+$transition: 200ms ease-out
+
+.sidebar__form
   position: absolute
   left: 10%
   padding: 18px
@@ -6,11 +8,6 @@
   background: #fff
   border-radius: 10px
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.05)
-  transition: all .2s ease
-
-  &.close
-    opacity: 0
-    transform: translateY(20px)
 
   &__close
     position: absolute
@@ -46,3 +43,21 @@
 
       &:checked + span
         border: 2px solid #525252
+
+  &-enter
+    opacity: 0
+    transform: translateY(30px) scale(.9)
+
+    &-active
+      opacity: 1
+      transform: translateY(0)
+      transition: opacity $transition, transform $transition
+
+  &-exit
+    opacity: 1
+    transform: translateY(0)
+
+    &-active
+      opacity: 0
+      transform: translateY(30px)
+      transition: opacity $transition, transform $transition
