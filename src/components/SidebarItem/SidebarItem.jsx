@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import './SidebarItem.sass'
 import { useHistory } from 'react-router-dom'
 import Loader from '../Loader/Loader'
+import { CSSTransition } from 'react-transition-group'
 
 const SidebarItem = ({
   text,
@@ -17,19 +18,10 @@ const SidebarItem = ({
   ...props
 }) => {
   const [showActions, setShowActions] = React.useState(false)
-  const [actionsClasses, setActionsClasses] = React.useState('')
   const [deleteLoading, setDeleteLoading] = React.useState(false)
   const history = useHistory()
   const itemClasses = classNames('sidebar__item', className, { active })
   let infoElem
-
-  React.useEffect(() => {
-    if (showActions) {
-      setActionsClasses('')
-    } else {
-      setActionsClasses('hide')
-    }
-  }, [showActions])
 
   if (info.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)) {
     infoElem = (
@@ -68,19 +60,26 @@ const SidebarItem = ({
       <div className="sidebar__icon">{infoElem}</div>
       <div className="sidebar__text">{text}</div>
       {actions && (
-        <div className={`sidebar__actions ${actionsClasses}`}>
-          {deleteLoading ? (
-            <Loader inline size={'15px'} borderWidth={2} />
-          ) : (
-            <div
-              className="material-icons sidebar__action"
-              title={'Delete folder'}
-              onClick={deleteFolder}
-            >
-              delete
-            </div>
-          )}
-        </div>
+        <CSSTransition
+          in={showActions}
+          timeout={300}
+          unmountOnExit
+          classNames={'sidebar__actions'}
+        >
+          <div className={`sidebar__actions`}>
+            {deleteLoading ? (
+              <Loader inline size={'15px'} borderWidth={2} />
+            ) : (
+              <div
+                className="material-icons sidebar__action"
+                title={'Delete folder'}
+                onClick={deleteFolder}
+              >
+                delete
+              </div>
+            )}
+          </div>
+        </CSSTransition>
       )}
     </li>
   )

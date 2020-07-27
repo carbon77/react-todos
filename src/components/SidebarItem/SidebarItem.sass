@@ -41,9 +41,6 @@
     transform: translateY(-50%)
     transition: all .1s ease
 
-    &.hide
-      opacity: 0
-
     .material-icons
       padding: 3px
       font-size: 1em
@@ -51,4 +48,18 @@
 
     .material-icons:hover
       color: rgba(0, 0, 0, .5)
+
+    &-enter
+      opacity: 0
+
+      &-active
+        opacity: 1
+        transition: opacity 300ms ease
+
+    &-exit
+      opacity: 1
+
+      &-active
+        opacity: 0
+        transition: opacity 300ms ease
 
