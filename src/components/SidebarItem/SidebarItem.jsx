@@ -13,13 +13,14 @@ const SidebarItem = ({
   onClick,
   actions,
   to,
+  active,
   ...props
 }) => {
   const [showActions, setShowActions] = React.useState(false)
   const [actionsClasses, setActionsClasses] = React.useState('')
   const [deleteLoading, setDeleteLoading] = React.useState(false)
   const history = useHistory()
-  const itemClasses = classNames('sidebar__item', className)
+  const itemClasses = classNames('sidebar__item', className, { active })
   let infoElem
 
   React.useEffect(() => {
@@ -91,6 +92,7 @@ SidebarItem.propTypes = {
   info: PropType.string,
   actions: PropType.bool,
   to: PropType.string,
+  active: PropType.bool,
   onClick: PropType.func,
 }
 
@@ -99,6 +101,7 @@ SidebarItem.defaultProps = {
   info: '#C9D1D3',
   actions: false,
   to: null,
+  active: false,
   onClick() {},
 }
 
