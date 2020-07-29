@@ -43,6 +43,18 @@ function App() {
       })
   }
 
+  async function updateFolder(id, options) {
+    await foldersAPI.updateFolder(id, options).then(() => {
+      dispatch({
+        type: 'UPDATE_FOLDER',
+        payload: {
+          id,
+          options,
+        },
+      })
+    })
+  }
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -55,7 +67,7 @@ function App() {
         <div className="content">
           <Switch>
             <Route path={'/todos/:folderId?'}>
-              <FolderPage folders={state.folders} />
+              <FolderPage folders={state.folders} updateFolder={updateFolder} />
             </Route>
             <Redirect to={'/todos'} />
           </Switch>

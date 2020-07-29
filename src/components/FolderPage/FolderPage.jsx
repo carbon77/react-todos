@@ -44,6 +44,7 @@ const FolderPage = (props) => {
             key={folder.id}
             folder={folder}
             todos={state.todos.filter((todo) => todo.folderId === folder.id)}
+            updateFolder={props.updateFolder}
           />
         ))
       )}

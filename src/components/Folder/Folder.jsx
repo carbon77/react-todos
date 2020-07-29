@@ -2,13 +2,12 @@ import React from 'react'
 
 import './Folder.sass'
 import Input from '../Input/Input'
+import FolderHeader from '../FolderHeader/FolderHeader'
 
 const Folder = (props) => {
   return (
     <div className={'folder'}>
-      <h1 className="folder__header" style={{ color: props.folder.color }}>
-        {props.folder.text}
-      </h1>
+      <FolderHeader folder={props.folder} updateFolder={props.updateFolder} />
       <hr />
       <div className="folder__todos">
         {props.todos.map((todo) => (

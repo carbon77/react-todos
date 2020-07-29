@@ -30,7 +30,7 @@ function foldersReducer(state, { type, payload }) {
         ...state,
         folders: state.folders.map((folder) => {
           if (folder.id === payload.id) {
-            return { ...folder, ...payload }
+            return { ...folder, ...payload.options }
           }
           return folder
         }),
