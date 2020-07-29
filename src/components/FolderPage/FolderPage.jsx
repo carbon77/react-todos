@@ -55,6 +55,18 @@ const FolderPage = (props) => {
     })
   }
 
+  async function updateTodo(id, options) {
+    await todosAPI.updateTodo(id, options).then(() => {
+      dispatch({
+        type: 'UPDATE_TODO',
+        payload: {
+          id,
+          options,
+        },
+      })
+    })
+  }
+
   return (
     <div className={'folders'}>
       {loading ? (
@@ -68,6 +80,7 @@ const FolderPage = (props) => {
             updateFolder={props.updateFolder}
             deleteTodo={deleteTodo}
             createTodo={createTodo}
+            updateTodo={updateTodo}
           />
         ))
       )}

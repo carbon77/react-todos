@@ -44,6 +44,7 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
         value={folderName}
         error={error}
         onChange={({ target }) => setFolderName(target.value)}
+        autoFocus={true}
       />
       <div className="sidebar__form__colors">
         {colors.map((color, index) => (

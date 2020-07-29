@@ -23,6 +23,7 @@ const FolderForm = ({ folderId, createTodo, onClose }) => {
         placeholder={'Enter folder name'}
         value={todoText}
         onChange={(event) => setTodoText(event.target.value)}
+        autoFocus={true}
       />
       <div className="form__buttons">
         <Button

@@ -4,21 +4,27 @@ import Input from '../Input/Input'
 import { CSSTransition } from 'react-transition-group'
 import Loader from '../Loader/Loader'
 
-const Todo = ({ todo, deleteTodo }) => {
+const Todo = ({ todo, deleteTodo, updateTodo }) => {
   const [completed, setCompleted] = React.useState(todo.completed)
   const [showButtons, setShowButtons] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const [toggleLoading, setToggleLoading] = React.useState(false)
 
   async function onDeleteClick() {
     setLoading(true)
     await deleteTodo(todo.id, () => setLoading(false))
   }
 
+  async function toggleTodo() {
+    setToggleLoading(true)
+    await updateTodo(todo.id, { ...todo, completed: !completed })
+    setCompleted(!completed)
+    setToggleLoading(false)
+  }
+
   function on(callback) {
     return (event) => {
-      const { target } = event
-
-      if (target.classList.contains('material-icons')) {
+      if (event.target.classList.contains('material-icons')) {
         return
       }
 
@@ -33,26 +39,32 @@ const Todo = ({ todo, deleteTodo }) => {
       onMouseEnter={() => setShowButtons(true)}
       onMouseLeave={() => setShowButtons(false)}
     >
-      <Input
-        type={'checkbox'}
-        checked={completed}
-        onChange={on(() => setCompleted(!completed))}
-      />
+      {toggleLoading ? (
+        <Loader size={'28px'} />
+      ) : (
+        <Input
+          type={'checkbox'}
+          checked={completed}
+          onChange={on(toggleTodo)}
+        />
+      )}
       <div
         className="folder__todo-text"
         onClick={on(() => setCompleted(!completed))}
       >
         {todo.text}
-        <CSSTransition
-          in={showButtons}
-          unmountOnExit
-          timeout={300}
-          classNames={'folder__todo-buttons'}
-        >
-          <div className="folder__todo-buttons">
-            {loading ? (
-              <Loader inline size={'15px'} borderWidth={2} />
-            ) : (
+      </div>
+      <CSSTransition
+        in={showButtons}
+        unmountOnExit
+        timeout={300}
+        classNames={'folder__todo-buttons'}
+      >
+        <div className="folder__todo-buttons">
+          {loading ? (
+            <Loader inline size={'15px'} borderWidth={2} />
+          ) : (
+            <>
               <span
                 className={'material-icons folder__close-todo'}
                 title={'Delete todo'}
@@ -60,10 +72,10 @@ const Todo = ({ todo, deleteTodo }) => {
               >
                 close
               </span>
-            )}
-          </div>
-        </CSSTransition>
-      </div>
+            </>
+          )}
+        </div>
+      </CSSTransition>
     </div>
   )
 }

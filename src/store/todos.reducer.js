@@ -28,7 +28,7 @@ function todosReducer(state, { type, payload }) {
         ...state,
         todos: state.todos.map((todo) => {
           if (todo.id === payload.id) {
-            return { ...todo, ...payload }
+            return { ...todo, ...payload.options }
           }
           return todo
         }),

@@ -14,7 +14,12 @@ const Folder = (props) => {
       <hr />
       <div className="folder__todos">
         {props.todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} deleteTodo={props.deleteTodo} />
+          <Todo
+            key={todo.id}
+            todo={todo}
+            deleteTodo={props.deleteTodo}
+            updateTodo={props.updateTodo}
+          />
         ))}
 
         {showForm ? (
