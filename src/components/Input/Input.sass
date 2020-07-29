@@ -5,6 +5,12 @@
     background: $color
 
 .form-control
+  &__errors
+    color: $danger
+    font-size: .9em
+    margin-bottom: 3px
+
+.form-control:not(.form-checkbox)
   position: relative
   display: inline-block
   overflow: hidden
@@ -36,12 +42,42 @@
     height: 2px
     transition: all .35s ease
 
-  &__errors
-    color: $danger
-    font-size: .9em
-    margin-bottom: 3px
-
   @include inputLine('success', $success)
   @include inputLine('primary', $primary)
   @include inputLine('danger', $danger)
   @include inputLine('secondary', $secondary)
+
+label.form-control.form-checkbox
+  display: flex
+  align-items: center
+  gap: 10px
+  position: relative
+  font-weight: bold
+  cursor: pointer
+  user-select: none
+
+  input
+    display: none
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    bottom: 0
+
+    &:checked + span
+      background: #4DD599
+      border: 2px solid #4DD599
+      color: #ffffff
+
+      &:hover
+        background: darken(#4DD599, 10%)
+        border-color: darken(#4DD599, 10%)
+
+  span.material-icons
+    color: transparent
+    border-radius: 10em
+    border: 2px solid #E8E8E8
+    transition: all .2s ease
+
+    &:hover
+      border-color: darken(#E8E8E8, 10%)

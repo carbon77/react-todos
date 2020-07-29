@@ -5,10 +5,11 @@ import classNames from 'classnames'
 import './Input.sass'
 import { COLORS } from '../../assets/js/_colors'
 
-const Input = ({ type, className, color, error, ...attrs }) => {
+const Input = ({ type, className, color, error, onChange, ...props }) => {
   const classes = classNames('form-control', className, {
-    [color]: COLORS.includes(color),
+    [color]: type !== 'checkbox' && COLORS.includes(color),
     error,
+    'form-checkbox': type === 'checkbox',
   })
   const styles = {}
 
@@ -16,10 +17,23 @@ const Input = ({ type, className, color, error, ...attrs }) => {
     styles.backgroundColor = color
   }
 
+  if (type === 'checkbox') {
+    return (
+      <>
+        <label className={classes}>
+          <input type="checkbox" checked={props.checked} onChange={onChange} />
+          <span className="material-icons">done</span>
+          {!!props.title && props.title}
+        </label>
+        <div className="form-control__errors">{error}</div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className={classes}>
-        <input type={type} {...attrs} />
+        <input type={type} onChange={onChange} {...props} />
         <span style={styles} />
       </div>
       <div className="form-control__errors">{error}</div>
@@ -32,6 +46,7 @@ Input.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   error: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 Input.defaultProps = {
@@ -39,6 +54,7 @@ Input.defaultProps = {
   className: '',
   color: 'primary',
   error: '',
+  onChange() {},
 }
 
 export default Input
