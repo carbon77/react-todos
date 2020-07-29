@@ -9,7 +9,9 @@ const FolderHeader = ({ folder, updateFolder }) => {
   const [folderName, setFolderName] = React.useState(folder.text)
 
   async function onSubmit() {
-    if (folder.text !== folderName) {
+    if (!folderName) {
+      setFolderName(folder.text)
+    } else if (folder.text !== folderName) {
       await updateFolder(folder.id, { ...folder, text: folderName })
     }
 
