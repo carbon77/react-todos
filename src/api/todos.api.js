@@ -6,9 +6,9 @@ export default {
       return API.get('/todos').then((response) => response.json())
     }
 
-    return API.get('/todos')
-      .then((response) => response.json())
-      .then((data) => data.filter((todo) => todo.folderId === folderId))
+    return API.get(`/todos?folderId=${folderId}`).then((response) =>
+      response.json()
+    )
   },
 
   getTodos(id) {
