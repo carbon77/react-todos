@@ -72,17 +72,27 @@ const FolderPage = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        currentFolders.map((folder) => (
-          <Folder
-            key={folder.id}
-            folder={folder}
-            todos={state.todos.filter((todo) => todo.folderId === folder.id)}
-            updateFolder={props.updateFolder}
-            deleteTodo={deleteTodo}
-            createTodo={createTodo}
-            updateTodo={updateTodo}
-          />
-        ))
+        <>
+          {!currentFolders.length ? (
+            <div className="empty-text">
+              <h1>No tasks</h1>
+            </div>
+          ) : (
+            currentFolders.map((folder) => (
+              <Folder
+                key={folder.id}
+                folder={folder}
+                todos={state.todos.filter(
+                  (todo) => todo.folderId === folder.id
+                )}
+                updateFolder={props.updateFolder}
+                deleteTodo={deleteTodo}
+                createTodo={createTodo}
+                updateTodo={updateTodo}
+              />
+            ))
+          )}
+        </>
       )}
     </div>
   )
