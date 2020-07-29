@@ -1,8 +1,8 @@
 import React from 'react'
 
 import './Folder.sass'
-import Input from '../Input/Input'
 import FolderHeader from '../FolderHeader/FolderHeader'
+import Todo from '../Todo/Todo'
 
 const Folder = (props) => {
   return (
@@ -11,10 +11,7 @@ const Folder = (props) => {
       <hr />
       <div className="folder__todos">
         {props.todos.map((todo) => (
-          <div key={todo.id} className={'folder__todo'}>
-            <Input type={'checkbox'} />
-            <div className="folder__todo-text">{todo.text}</div>
-          </div>
+          <Todo key={todo.id} todo={todo} deleteTodo={props.deleteTodo} />
         ))}
 
         <div className="folder__todo text-muted">

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import './FolderPage.sass'
 import todosReducer from '../../store/todos.reducer'
-import foldersAPI from '../../api/todos.api'
+import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
 
@@ -25,7 +25,7 @@ const FolderPage = (props) => {
       setCurrentFolders(props.folders)
     }
 
-    foldersAPI.fetchTodos(folderId).then((todos) => {
+    todosAPI.fetchTodos(folderId).then((todos) => {
       dispatch({
         type: 'SET_TODOS',
         payload: { todos },
@@ -33,6 +33,18 @@ const FolderPage = (props) => {
       setLoading(false)
     })
   }, [folderId, props.folders])
+
+  async function deleteTodo(id, callback) {
+    todosAPI
+      .deleteTodo(id)
+      .then(callback)
+      .then(() => {
+        dispatch({
+          type: 'DELETE_TODO',
+          payload: { id },
+        })
+      })
+  }
 
   return (
     <div className={'folders'}>
@@ -45,6 +57,7 @@ const FolderPage = (props) => {
             folder={folder}
             todos={state.todos.filter((todo) => todo.folderId === folder.id)}
             updateFolder={props.updateFolder}
+            deleteTodo={deleteTodo}
           />
         ))
       )}
