@@ -5,56 +5,19 @@ import { CSSTransition } from 'react-transition-group'
 import './Sidebar.sass'
 import SidebarFolderForm from '../SidebarFolderForm/SidebarFolderForm'
 import SidebarItem from '../SidebarItem/SidebarItem'
-import foldersReducer from '../../store/folders.reducer'
-import foldersAPI from '../../api/folders.api'
 import Loader from '../Loader/Loader'
 
 const Sidebar = (props) => {
-  const [state, dispatch] = React.useReducer(foldersReducer, { folders: [] })
   const [isFormShowed, setIsFormShowed] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
   const location = useLocation()
-
-  React.useEffect(() => {
-    setLoading(true)
-    foldersAPI.fetchFolders().then((data) => {
-      dispatch({
-        type: 'SET_FOLDERS',
-        payload: {
-          folders: data,
-        },
-      })
-      setLoading(false)
-    })
-  }, [])
-
-  async function addFolder(text, color) {
-    const folder = await foldersAPI.createFolder(text, color)
-    dispatch({
-      type: 'ADD_FOLDER',
-      payload: folder,
-    })
-  }
-
-  async function deleteFolder(id, callback) {
-    await foldersAPI
-      .deleteFolder(id)
-      .then(callback)
-      .then(() => {
-        dispatch({
-          type: 'DELETE_FOLDER',
-          payload: { id },
-        })
-      })
-  }
 
   return (
     <div className="sidebar">
-      {loading ? (
+      {props.loading ? (
         <Loader />
       ) : (
         <ul className="sidebar__list">
-          {!!state.folders.length && (
+          {!!props.folders.length && (
             <>
               <SidebarItem
                 to={'/todos'}
@@ -66,20 +29,20 @@ const Sidebar = (props) => {
             </>
           )}
 
-          {state.folders.map((folder) => (
+          {props.folders.map((folder) => (
             <SidebarItem
               key={folder.id}
               text={folder.text}
               info={folder.icon || folder.color}
               to={`/todos/${folder.id}`}
-              deleteFolder={deleteFolder}
+              deleteFolder={props.deleteFolder}
               folderId={folder.id}
               actions
               active={`/todos/${folder.id}` === location.pathname}
             />
           ))}
 
-          {!state.folders.length || <li className="sidebar__divider" />}
+          {!props.folders.length || <li className="sidebar__divider" />}
           <SidebarItem
             info={'add'}
             className="text-muted"
@@ -93,7 +56,7 @@ const Sidebar = (props) => {
             classNames={'sidebar__form'}
           >
             <SidebarFolderForm
-              addFolder={addFolder}
+              addFolder={props.addFolder}
               onClose={() => setIsFormShowed(false)}
             />
           </CSSTransition>
