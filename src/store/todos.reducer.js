@@ -9,6 +9,7 @@ function todosReducer(state, { type, payload }) {
       return { ...state, todos: payload.todos }
     case ADD_TODO:
       const todo = {
+        id: payload.id,
         text: payload.text,
         folderId: payload.folderId,
         completed: payload.completed,

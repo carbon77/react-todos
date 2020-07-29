@@ -15,11 +15,11 @@ export default {
     return API.get(`/todos/${id}`).then((response) => response.json())
   },
 
-  createTodo(folderId, text, completed) {
+  createTodo(folderId, text) {
     const todo = {
       folderId,
       text,
-      completed,
+      completed: false,
     }
 
     return API.post('/todos', todo).then((response) => response.json())

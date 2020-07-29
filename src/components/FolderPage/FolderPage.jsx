@@ -35,7 +35,7 @@ const FolderPage = (props) => {
   }, [folderId, props.folders])
 
   async function deleteTodo(id, callback) {
-    todosAPI
+    await todosAPI
       .deleteTodo(id)
       .then(callback)
       .then(() => {
@@ -44,6 +44,15 @@ const FolderPage = (props) => {
           payload: { id },
         })
       })
+  }
+
+  async function createTodo(id, text) {
+    await todosAPI.createTodo(id, text).then((todo) => {
+      dispatch({
+        type: 'ADD_TODO',
+        payload: { ...todo },
+      })
+    })
   }
 
   return (
@@ -58,6 +67,7 @@ const FolderPage = (props) => {
             todos={state.todos.filter((todo) => todo.folderId === folder.id)}
             updateFolder={props.updateFolder}
             deleteTodo={deleteTodo}
+            createTodo={createTodo}
           />
         ))
       )}
