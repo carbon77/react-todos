@@ -1,9 +1,10 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import Sidebar from './components/Sidebar/Sidebar'
 import foldersReducer from './store/folders.reducer'
 import foldersAPI from './api/folders.api'
+import FolderPage from './components/FolderPage/FolderPage'
 
 function App() {
   const [state, dispatch] = React.useReducer(foldersReducer, { folders: [] })
@@ -51,6 +52,14 @@ function App() {
           addFolder={addFolder}
           deleteFolder={deleteFolder}
         />
+        <div className="content">
+          <Switch>
+            <Route path={'/todos/:folderId?'}>
+              <FolderPage folders={state.folders} />
+            </Route>
+            <Redirect to={'/todos'} />
+          </Switch>
+        </div>
       </div>
     </BrowserRouter>
   )

@@ -1,0 +1,48 @@
+.folder
+  &__header
+    padding: 15px 0
+    font-weight: 700
+    font-family: 'Montserrat', sans-serif
+
+    .material-icons
+      margin-left: 10px
+
+  hr
+    border: none
+    border-top: 1px solid #f2f2f2
+
+  .material-icons
+    color: #dfdfdf
+    cursor: pointer
+    transition: all 100ms ease
+
+    &:hover
+      color: darken(#dfdfdf, 10%)
+
+  &__todos
+    width: 50%
+    padding: 25px 0
+
+  &__todo
+    display: flex
+    align-items: center
+    position: relative
+    font-weight: 500
+    cursor: pointer
+
+    & > .material-icons
+      display: flex
+      justify-content: center
+      width: 28px
+
+  &__todo-text
+    margin-left: 15px
+
+  &__close-todo
+    position: absolute
+    top: 50%
+    right: 20px
+    transform: translateY(-50%)
+
+  &__todo + &__todo
+    margin-top: 15px
