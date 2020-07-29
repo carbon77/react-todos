@@ -6,20 +6,20 @@ export default {
       return API.get('/todos').then((response) => response.json())
     }
 
-    return API.get('/todos')
-      .then((response) => response.json())
-      .then((data) => data.filter((todo) => todo.folderId === folderId))
+    return API.get(`/todos?folderId=${folderId}`).then((response) =>
+      response.json()
+    )
   },
 
   getTodos(id) {
     return API.get(`/todos/${id}`).then((response) => response.json())
   },
 
-  createTodo(folderId, text, completed) {
+  createTodo(folderId, text) {
     const todo = {
       folderId,
       text,
-      completed,
+      completed: false,
     }
 
     return API.post('/todos', todo).then((response) => response.json())
