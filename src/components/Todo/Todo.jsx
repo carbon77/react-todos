@@ -9,6 +9,8 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
   const [showButtons, setShowButtons] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [toggleLoading, setToggleLoading] = React.useState(false)
+  const [editMode, setEditMode] = React.useState(false)
+  const [todoText, setTodoText] = React.useState(todo.text)
 
   async function onDeleteClick() {
     setLoading(true)
@@ -20,6 +22,16 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
     await updateTodo(todo.id, { ...todo, completed: !completed })
     setCompleted(!completed)
     setToggleLoading(false)
+  }
+
+  async function updateTodoText() {
+    if (!todoText) {
+      setTodoText(todo.text)
+    } else if (todoText !== todo.text) {
+      await updateTodo(todo.id, { ...todo, text: todoText })
+    }
+
+    setEditMode(false)
   }
 
   function on(callback) {
@@ -52,7 +64,17 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
         className="folder__todo-text"
         onClick={on(() => setCompleted(!completed))}
       >
-        {todo.text}
+        {editMode ? (
+          <Input
+            value={todoText}
+            autoFocus={true}
+            onChange={(event) => setTodoText(event.target.value)}
+            onBlur={updateTodoText}
+            onKeyDown={({ key }) => (key === 'Enter' ? updateTodoText() : null)}
+          />
+        ) : (
+          todo.text
+        )}
       </div>
       <CSSTransition
         in={showButtons}
@@ -65,6 +87,13 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
             <Loader inline size={'15px'} borderWidth={2} />
           ) : (
             <>
+              <span
+                className="material-icons"
+                title={"Change todo text"}
+                onClick={() => setEditMode(true)}
+              >
+                edit
+              </span>
               <span
                 className={'material-icons folder__close-todo'}
                 title={'Delete todo'}
