@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '../Input/Input'
-import Fade from '../Fade/Fade'
+import Input from '../../Input/Input'
+import Fade from '../../Fade/Fade'
 
 const FolderHeader = ({ folder, updateFolder }) => {
   const [showEditButton, setShowEditButton] = React.useState(false)

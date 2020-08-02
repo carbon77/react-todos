@@ -4,8 +4,8 @@ import classNames from 'classnames'
 
 import './SidebarItem.sass'
 import { useHistory } from 'react-router-dom'
-import Loader from '../Loader/Loader'
-import Fade from '../Fade/Fade'
+import Loader from '../../Loader/Loader'
+import Fade from '../../Fade/Fade'
 
 const SidebarItem = ({
   text,

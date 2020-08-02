@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 
 import './Sidebar.sass'
-import SidebarFolderForm from '../SidebarFolderForm/SidebarFolderForm'
-import SidebarItem from '../SidebarItem/SidebarItem'
+import SidebarFolderForm from './SidebarFolderForm/SidebarFolderForm'
+import SidebarItem from './SidebarItem/SidebarItem'
 import Loader from '../Loader/Loader'
 
 const Sidebar = (props) => {

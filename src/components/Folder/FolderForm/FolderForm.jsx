@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '../Input/Input'
-import Button from '../Button/Button'
+import Input from '../../Input/Input'
+import Button from '../../Button/Button'
 
 const FolderForm = ({ folderId, createTodo, onClose }) => {
   const [todoText, setTodoText] = React.useState('')

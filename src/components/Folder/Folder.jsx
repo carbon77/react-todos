@@ -1,9 +1,9 @@
 import React from 'react'
 
 import './Folder.sass'
-import FolderHeader from '../FolderHeader/FolderHeader'
+import FolderHeader from './FolderHeader/FolderHeader'
 import Todo from '../Todo/Todo'
-import FolderForm from '../FolderForm/FolderForm'
+import FolderForm from './FolderForm/FolderForm'
 
 const Folder = (props) => {
   const [showForm, setShowForm] = React.useState(false)
