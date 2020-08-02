@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import Input from '../Input/Input'
-import { CSSTransition } from 'react-transition-group'
 import Loader from '../Loader/Loader'
+import Fade from '../Fade/Fade'
 
 const Todo = ({ todo, deleteTodo, updateTodo }) => {
   const [completed, setCompleted] = React.useState(todo.completed)
   const [showButtons, setShowButtons] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
-  const [toggleLoading, setToggleLoading] = React.useState(false)
   const [editMode, setEditMode] = React.useState(false)
   const [todoText, setTodoText] = React.useState(todo.text)
 
@@ -18,10 +18,8 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
   }
 
   async function toggleTodo() {
-    setToggleLoading(true)
     await updateTodo(todo.id, { ...todo, completed: !completed })
     setCompleted(!completed)
-    setToggleLoading(false)
   }
 
   async function updateTodoText() {
@@ -51,15 +49,7 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
       onMouseEnter={() => setShowButtons(true)}
       onMouseLeave={() => setShowButtons(false)}
     >
-      {toggleLoading ? (
-        <Loader size={'28px'} />
-      ) : (
-        <Input
-          type={'checkbox'}
-          checked={completed}
-          onChange={on(toggleTodo)}
-        />
-      )}
+      <Input type={'checkbox'} checked={completed} onChange={on(toggleTodo)} />
       <div
         className="folder__todo-text"
         onClick={on(() => setCompleted(!completed))}
@@ -76,12 +66,7 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
           todo.text
         )}
       </div>
-      <CSSTransition
-        in={showButtons}
-        unmountOnExit
-        timeout={300}
-        classNames={'folder__todo-buttons'}
-      >
+      <Fade in={showButtons} unmountOnExit duration={150}>
         <div className="folder__todo-buttons">
           {loading ? (
             <Loader inline size={'15px'} borderWidth={2} />
@@ -89,7 +74,7 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
             <>
               <span
                 className="material-icons"
-                title={"Change todo text"}
+                title={'Change todo text'}
                 onClick={() => setEditMode(true)}
               >
                 edit
@@ -104,7 +89,7 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
             </>
           )}
         </div>
-      </CSSTransition>
+      </Fade>
     </div>
   )
 }

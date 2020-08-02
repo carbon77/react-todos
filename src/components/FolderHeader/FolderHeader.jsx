@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CSSTransition } from 'react-transition-group'
+
 import Input from '../Input/Input'
+import Fade from '../Fade/Fade'
 
 const FolderHeader = ({ folder, updateFolder }) => {
   const [showEditButton, setShowEditButton] = React.useState(false)
@@ -39,12 +40,7 @@ const FolderHeader = ({ folder, updateFolder }) => {
       onMouseLeave={() => setShowEditButton(false)}
     >
       {folder.text}
-      <CSSTransition
-        in={showEditButton}
-        unmountOnExit
-        timeout={300}
-        classNames={'folder__header'}
-      >
+      <Fade in={showEditButton} unmountOnExit duration={150}>
         <div
           className="material-icons"
           title={'Edit folder name'}
@@ -52,7 +48,7 @@ const FolderHeader = ({ folder, updateFolder }) => {
         >
           edit
         </div>
-      </CSSTransition>
+      </Fade>
     </h1>
   )
 }

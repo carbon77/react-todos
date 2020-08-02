@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import './SidebarItem.sass'
 import { useHistory } from 'react-router-dom'
 import Loader from '../Loader/Loader'
-import { CSSTransition } from 'react-transition-group'
+import Fade from '../Fade/Fade'
 
 const SidebarItem = ({
   text,
@@ -60,13 +60,8 @@ const SidebarItem = ({
       <div className="sidebar__icon">{infoElem}</div>
       <div className="sidebar__text">{text}</div>
       {actions && (
-        <CSSTransition
-          in={showActions}
-          timeout={300}
-          unmountOnExit
-          classNames={'sidebar__actions'}
-        >
-          <div className={`sidebar__actions`}>
+        <Fade in={showActions} duration={150} unmountOnExit>
+          <div className={`sidebar__actions text-muted`}>
             {deleteLoading ? (
               <Loader inline size={'15px'} borderWidth={2} />
             ) : (
@@ -79,7 +74,7 @@ const SidebarItem = ({
               </div>
             )}
           </div>
-        </CSSTransition>
+        </Fade>
       )}
     </li>
   )
