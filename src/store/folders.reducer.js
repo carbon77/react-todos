@@ -1,3 +1,4 @@
+// Action types
 const SET_FOLDERS = 'SET_FOLDERS'
 const ADD_FOLDER = 'ADD_FOLDER'
 const DELETE_FOLDER = 'DELETE_FOLDER'
@@ -45,3 +46,32 @@ function foldersReducer(state = defaultState, { type, payload }) {
 }
 
 export default foldersReducer
+
+// Action creators
+export function setFolders(folders) {
+  return {
+    type: SET_FOLDERS,
+    payload: { folders },
+  }
+}
+
+export function addFolder(folder) {
+  return {
+    type: ADD_FOLDER,
+    payload: folder,
+  }
+}
+
+export function deleteFolder(id) {
+  return {
+    type: DELETE_FOLDER,
+    payload: { id },
+  }
+}
+
+export function updateFolder(id, options) {
+  return {
+    type: UPDATE_FOLDER,
+    payload: { id, options },
+  }
+}
