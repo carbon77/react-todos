@@ -1,13 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Sidebar from './components/Sidebar/Sidebar'
-import foldersReducer from './store/folders.reducer'
 import foldersAPI from './api/folders.api'
 import FolderPage from './components/FolderPage/FolderPage'
 
 function App() {
-  const [state, dispatch] = React.useReducer(foldersReducer, { folders: [] })
+  const state = useSelector((state) => state.folders)
+  const dispatch = useDispatch()
   const [foldersLoading, setFoldersLoading] = React.useState(false)
 
   React.useEffect(() => {
@@ -21,7 +22,7 @@ function App() {
       })
       setFoldersLoading(false)
     })
-  }, [])
+  }, [dispatch])
 
   async function addFolder(text, color) {
     const folder = await foldersAPI.createFolder(text, color)

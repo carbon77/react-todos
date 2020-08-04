@@ -1,15 +1,16 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import './FolderPage.sass'
-import todosReducer from '../../store/todos.reducer'
 import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
-  const [state, dispatch] = React.useReducer(todosReducer, { todos: [] })
+  const state = useSelector((state) => state.todos)
+  const dispatch = useDispatch()
   const [loading, setLoading] = React.useState(false)
   const { folderId } = useParams()
 
@@ -32,7 +33,7 @@ const FolderPage = (props) => {
       })
       setLoading(false)
     })
-  }, [folderId, props.folders])
+  }, [folderId, props.folders, dispatch])
 
   async function deleteTodo(id, callback) {
     await todosAPI
