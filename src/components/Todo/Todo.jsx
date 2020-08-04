@@ -1,24 +1,43 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 
 import Input from '../Input/Input'
 import Loader from '../Loader/Loader'
 import Fade from '../Fade/Fade'
+import todosAPI from '../../api/todos.api'
+import { deleteTodo, updateTodo } from '../../store/todos.reducer'
 
-const Todo = ({ todo, deleteTodo, updateTodo }) => {
+const Todo = ({ todo }) => {
   const [completed, setCompleted] = React.useState(todo.completed)
   const [showButtons, setShowButtons] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [editMode, setEditMode] = React.useState(false)
   const [todoText, setTodoText] = React.useState(todo.text)
+  const dispatch = useDispatch()
+
+  async function asyncDeleteTodo(id, callback) {
+    await todosAPI
+      .deleteTodo(id)
+      .then(callback)
+      .then(() => {
+        dispatch(deleteTodo(id))
+      })
+  }
+
+  async function asyncUpdateTodo(id, options) {
+    await todosAPI.updateTodo(id, options).then(() => {
+      dispatch(updateTodo(id, options))
+    })
+  }
 
   async function onDeleteClick() {
     setLoading(true)
-    await deleteTodo(todo.id, () => setLoading(false))
+    await asyncDeleteTodo(todo.id, () => setLoading(false))
   }
 
   async function toggleTodo() {
-    await updateTodo(todo.id, { ...todo, completed: !completed })
+    await asyncUpdateTodo(todo.id, { ...todo, completed: !completed })
     setCompleted(!completed)
   }
 
@@ -26,7 +45,7 @@ const Todo = ({ todo, deleteTodo, updateTodo }) => {
     if (!todoText) {
       setTodoText(todo.text)
     } else if (todoText !== todo.text) {
-      await updateTodo(todo.id, { ...todo, text: todoText })
+      await asyncUpdateTodo(todo.id, { ...todo, text: todoText })
     }
 
     setEditMode(false)
@@ -101,11 +120,6 @@ Todo.propTypes = {
     completed: PropTypes.bool.isRequired,
     folderId: PropTypes.number.isRequired,
   }).isRequired,
-  deleteTodo: PropTypes.func,
-}
-
-Todo.defaultProps = {
-  deleteTodo() {},
 }
 
 export default Todo

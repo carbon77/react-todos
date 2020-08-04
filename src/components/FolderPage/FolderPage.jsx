@@ -6,8 +6,7 @@ import './FolderPage.sass'
 import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
-import foldersAPI from '../../api/folders.api'
-import { updateFolder } from '../../store/folders.reducer'
+import { setTodos } from '../../store/todos.reducer'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
@@ -29,52 +28,10 @@ const FolderPage = (props) => {
     }
 
     todosAPI.fetchTodos(folderId).then((todos) => {
-      dispatch({
-        type: 'SET_TODOS',
-        payload: { todos },
-      })
+      dispatch(setTodos(todos))
       setLoading(false)
     })
   }, [folderId, props.folders, dispatch])
-
-  async function asyncUpdateFolder(id, options) {
-    await foldersAPI.updateFolder(id, options).then(() => {
-      dispatch(updateFolder(id, options))
-    })
-  }
-
-  async function deleteTodo(id, callback) {
-    await todosAPI
-      .deleteTodo(id)
-      .then(callback)
-      .then(() => {
-        dispatch({
-          type: 'DELETE_TODO',
-          payload: { id },
-        })
-      })
-  }
-
-  async function createTodo(id, text) {
-    await todosAPI.createTodo(id, text).then((todo) => {
-      dispatch({
-        type: 'ADD_TODO',
-        payload: { ...todo },
-      })
-    })
-  }
-
-  async function updateTodo(id, options) {
-    await todosAPI.updateTodo(id, options).then(() => {
-      dispatch({
-        type: 'UPDATE_TODO',
-        payload: {
-          id,
-          options,
-        },
-      })
-    })
-  }
 
   return (
     <div className={'folders'}>
@@ -94,10 +51,6 @@ const FolderPage = (props) => {
                 todos={state.todos.filter(
                   (todo) => todo.folderId === folder.id
                 )}
-                updateFolder={asyncUpdateFolder}
-                deleteTodo={deleteTodo}
-                createTodo={createTodo}
-                updateTodo={updateTodo}
               />
             ))
           )}

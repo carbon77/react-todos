@@ -1,12 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
+import todosAPI from '../../../api/todos.api'
+import { addTodo } from '../../../store/todos.reducer'
 
-const FolderForm = ({ folderId, createTodo, onClose }) => {
+const FolderForm = ({ folderId, onClose }) => {
   const [todoText, setTodoText] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const dispatch = useDispatch()
+
+  async function createTodo(folderId, text) {
+    await todosAPI.createTodo(folderId, text).then((todo) => {
+      dispatch(addTodo(todo))
+    })
+  }
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -45,12 +55,10 @@ const FolderForm = ({ folderId, createTodo, onClose }) => {
 FolderForm.propTypes = {
   folderId: PropTypes.number.isRequired,
   onClose: PropTypes.func,
-  createFolder: PropTypes.func,
 }
 
 FolderForm.defaultProps = {
   onClose() {},
-  createFolder() {},
 }
 
 export default FolderForm
