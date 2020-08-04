@@ -1,8 +1,11 @@
 import React from 'react'
-import Input from '../../Input/Input'
-import Button from '../../Button/Button'
+import { useDispatch } from 'react-redux'
 
 import './SidebarFolderForm.sass'
+import Input from '../../Input/Input'
+import Button from '../../Button/Button'
+import foldersAPI from '../../../api/folders.api'
+import { addFolder } from '../../../store/folders.reducer'
 
 const colors = [
   '#c9c9c9',
@@ -15,11 +18,17 @@ const colors = [
   '#B6E6BD',
 ]
 
-const SidebarFolderForm = ({ onClose, addFolder }) => {
+const SidebarFolderForm = ({ onClose }) => {
   const [folderName, setFolderName] = React.useState('')
   const [selectedColor, setSelectedColor] = React.useState(colors[0])
   const [error, setError] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const dispatch = useDispatch()
+
+  async function asyncAddFolder(text, color) {
+    const folder = await foldersAPI.createFolder(text, color)
+    dispatch(addFolder(folder))
+  }
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -32,7 +41,7 @@ const SidebarFolderForm = ({ onClose, addFolder }) => {
     }
 
     setError('')
-    await addFolder(folderName, selectedColor)
+    await asyncAddFolder(folderName, selectedColor)
     onClose()
   }
 

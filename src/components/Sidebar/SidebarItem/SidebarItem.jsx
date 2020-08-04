@@ -1,11 +1,14 @@
 import React from 'react'
 import PropType from 'prop-types'
 import classNames from 'classnames'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import './SidebarItem.sass'
-import { useHistory } from 'react-router-dom'
 import Loader from '../../Loader/Loader'
 import Fade from '../../Fade/Fade'
+import foldersAPI from '../../../api/folders.api'
+import { deleteFolder } from '../../../store/folders.reducer'
 
 const SidebarItem = ({
   text,
@@ -19,8 +22,9 @@ const SidebarItem = ({
 }) => {
   const [showActions, setShowActions] = React.useState(false)
   const [deleteLoading, setDeleteLoading] = React.useState(false)
-  const history = useHistory()
   const itemClasses = classNames('sidebar__item', className, { active })
+  const history = useHistory()
+  const dispatch = useDispatch()
   let infoElem
 
   if (info.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)) {
@@ -45,9 +49,16 @@ const SidebarItem = ({
     }
   }
 
-  async function deleteFolder() {
+  async function asyncDeleteFolder(id, callback) {
+    await foldersAPI
+      .deleteFolder(id)
+      .then(callback)
+      .then(() => dispatch(deleteFolder(id)))
+  }
+
+  async function onDelete() {
     setDeleteLoading(true)
-    await props.deleteFolder(props.folderId, () => setDeleteLoading(false))
+    await asyncDeleteFolder(props.folderId, () => setDeleteLoading(false))
   }
 
   return (
@@ -68,7 +79,7 @@ const SidebarItem = ({
               <div
                 className="material-icons sidebar__action"
                 title={'Delete folder'}
-                onClick={deleteFolder}
+                onClick={onDelete}
               >
                 delete
               </div>

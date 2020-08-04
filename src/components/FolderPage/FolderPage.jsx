@@ -6,13 +6,15 @@ import './FolderPage.sass'
 import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
+import foldersAPI from '../../api/folders.api'
+import { updateFolder } from '../../store/folders.reducer'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
-  const state = useSelector((state) => state.todos)
-  const dispatch = useDispatch()
   const [loading, setLoading] = React.useState(false)
+  const state = useSelector((state) => state.todos)
   const { folderId } = useParams()
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
     setLoading(true)
@@ -34,6 +36,12 @@ const FolderPage = (props) => {
       setLoading(false)
     })
   }, [folderId, props.folders, dispatch])
+
+  async function asyncUpdateFolder(id, options) {
+    await foldersAPI.updateFolder(id, options).then(() => {
+      dispatch(updateFolder(id, options))
+    })
+  }
 
   async function deleteTodo(id, callback) {
     await todosAPI
@@ -86,7 +94,7 @@ const FolderPage = (props) => {
                 todos={state.todos.filter(
                   (todo) => todo.folderId === folder.id
                 )}
-                updateFolder={props.updateFolder}
+                updateFolder={asyncUpdateFolder}
                 deleteTodo={deleteTodo}
                 createTodo={createTodo}
                 updateTodo={updateTodo}
