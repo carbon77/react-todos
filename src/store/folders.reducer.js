@@ -4,7 +4,11 @@ const DELETE_FOLDER = 'DELETE_FOLDER'
 const UPDATE_FOLDER = 'UPDATE_FOLDER'
 const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER'
 
-function foldersReducer(state, { type, payload }) {
+const defaultState = {
+  folders: [],
+}
+
+function foldersReducer(state = defaultState, { type, payload }) {
   switch (type) {
     case SET_FOLDERS:
       return { ...state, folders: payload.folders }

@@ -3,7 +3,11 @@ const ADD_TODO = 'ADD_TODO'
 const DELETE_TODO = 'DELETE_TODO'
 const UPDATE_TODO = 'UPDATE_TODO'
 
-function todosReducer(state, { type, payload }) {
+const defaultState = {
+  todos: [],
+}
+
+function todosReducer(state = defaultState, { type, payload }) {
   switch (type) {
     case SET_TODOS:
       return { ...state, todos: payload.todos }
