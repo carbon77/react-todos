@@ -1,3 +1,4 @@
+// Action types
 const SET_TODOS = 'SET_TODOS'
 const ADD_TODO = 'ADD_TODO'
 const DELETE_TODO = 'DELETE_TODO'
@@ -43,3 +44,32 @@ function todosReducer(state = defaultState, { type, payload }) {
 }
 
 export default todosReducer
+
+// Action creators
+export function setTodos(todos) {
+  return {
+    type: SET_TODOS,
+    payload: { todos },
+  }
+}
+
+export function addTodo(todo) {
+  return {
+    type: ADD_TODO,
+    payload: todo,
+  }
+}
+
+export function deleteTodo(id) {
+  return {
+    type: DELETE_TODO,
+    payload: { id },
+  }
+}
+
+export function updateTodo(id, options) {
+  return {
+    type: UPDATE_TODO,
+    payload: { id, options },
+  }
+}

@@ -11,10 +11,6 @@ export default {
     )
   },
 
-  getTodos(id) {
-    return API.get(`/todos/${id}`).then((response) => response.json())
-  },
-
   createTodo(folderId, text) {
     const todo = {
       folderId,
