@@ -1,4 +1,4 @@
-import API from './index'
+import API from './'
 
 export default {
   fetchTodos(folderId = null) {

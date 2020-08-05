@@ -3,10 +3,9 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import './FolderPage.sass'
-import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
-import { setTodos } from '../../store/todos.reducer'
+import { fetchTodos } from '../../store/todos.reducer'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
@@ -27,8 +26,7 @@ const FolderPage = (props) => {
       setCurrentFolders(props.folders)
     }
 
-    todosAPI.fetchTodos(folderId).then((todos) => {
-      dispatch(setTodos(todos))
+    dispatch(fetchTodos()).then(() => {
       setLoading(false)
     })
   }, [folderId, props.folders, dispatch])

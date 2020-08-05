@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
-import todosAPI from '../../../api/todos.api'
 import { addTodo } from '../../../store/todos.reducer'
 
 const FolderForm = ({ folderId, onClose }) => {
@@ -12,17 +11,11 @@ const FolderForm = ({ folderId, onClose }) => {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
 
-  async function createTodo(folderId, text) {
-    await todosAPI.createTodo(folderId, text).then((todo) => {
-      dispatch(addTodo(todo))
-    })
-  }
-
   async function onSubmit(event) {
     event.preventDefault()
 
     setLoading(true)
-    await createTodo(folderId, todoText)
+    await dispatch(addTodo(folderId, todoText))
     setLoading(false)
     onClose()
   }
