@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import './SidebarFolderForm.sass'
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
-import foldersAPI from '../../../api/folders.api'
 import { addFolder } from '../../../store/folders.reducer'
 
 const colors = [
@@ -25,11 +24,6 @@ const SidebarFolderForm = ({ onClose }) => {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
 
-  async function asyncAddFolder(text, color) {
-    const folder = await foldersAPI.createFolder(text, color)
-    dispatch(addFolder(folder))
-  }
-
   async function onSubmit(event) {
     event.preventDefault()
     setLoading(true)
@@ -40,8 +34,13 @@ const SidebarFolderForm = ({ onClose }) => {
       return
     }
 
+    const folder = {
+      text: folderName,
+      color: selectedColor,
+    }
+
     setError('')
-    await asyncAddFolder(folderName, selectedColor)
+    await dispatch(addFolder(folder))
     onClose()
   }
 

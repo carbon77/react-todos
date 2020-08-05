@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 
 import Input from '../../Input/Input'
 import Fade from '../../Fade/Fade'
-import foldersAPI from '../../../api/folders.api'
 import { updateFolder } from '../../../store/folders.reducer'
 
 const FolderHeader = ({ folder }) => {
@@ -13,17 +12,11 @@ const FolderHeader = ({ folder }) => {
   const [folderName, setFolderName] = React.useState(folder.text)
   const dispatch = useDispatch()
 
-  async function asyncUpdateFolder(id, options) {
-    await foldersAPI.updateFolder(id, options).then(() => {
-      dispatch(updateFolder(id, options))
-    })
-  }
-
   async function onSubmit() {
     if (!folderName) {
       setFolderName(folder.text)
     } else if (folder.text !== folderName) {
-      await asyncUpdateFolder(folder.id, { ...folder, text: folderName })
+      await dispatch(updateFolder(folder.id, { ...folder, text: folderName }))
     }
 
     setEditMode(false)

@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom'
 import './SidebarItem.sass'
 import Loader from '../../Loader/Loader'
 import Fade from '../../Fade/Fade'
-import foldersAPI from '../../../api/folders.api'
 import { deleteFolder } from '../../../store/folders.reducer'
 
 const SidebarItem = ({
@@ -49,16 +48,10 @@ const SidebarItem = ({
     }
   }
 
-  async function asyncDeleteFolder(id, callback) {
-    await foldersAPI
-      .deleteFolder(id)
-      .then(callback)
-      .then(() => dispatch(deleteFolder(id)))
-  }
-
   async function onDelete() {
     setDeleteLoading(true)
-    await asyncDeleteFolder(props.folderId, () => setDeleteLoading(false))
+    await dispatch(deleteFolder(props.folderId))
+    setDeleteLoading(false)
   }
 
   return (

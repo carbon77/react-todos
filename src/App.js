@@ -3,9 +3,8 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Sidebar from './components/Sidebar/Sidebar'
-import foldersAPI from './api/folders.api'
 import FolderPage from './components/FolderPage/FolderPage'
-import { setFolders } from './store/folders.reducer'
+import { fetchFolders } from './store/folders.reducer'
 
 function App() {
   const state = useSelector((state) => state.folders)
@@ -14,8 +13,7 @@ function App() {
 
   React.useEffect(() => {
     setFoldersLoading(true)
-    foldersAPI.fetchFolders().then((data) => {
-      dispatch(setFolders(data))
+    dispatch(fetchFolders()).then(() => {
       setFoldersLoading(false)
     })
   }, [dispatch])
