@@ -10,7 +10,7 @@ import { fetchTodos } from '../../store/todos.reducer'
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const state = useSelector((state) => state.todos)
+  const todos = useSelector((state) => state.todos.todos)
   const { folderId } = useParams()
   const dispatch = useDispatch()
 
@@ -46,9 +46,7 @@ const FolderPage = (props) => {
               <Folder
                 key={folder.id}
                 folder={folder}
-                todos={state.todos.filter(
-                  (todo) => todo.folderId === folder.id
-                )}
+                todos={todos.filter((todo) => todo.folderId === folder.id)}
               />
             ))
           )}

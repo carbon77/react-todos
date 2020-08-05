@@ -7,7 +7,7 @@ import FolderPage from './components/FolderPage/FolderPage'
 import { fetchFolders } from './store/folders.reducer'
 
 function App() {
-  const state = useSelector((state) => state.folders)
+  const folders = useSelector((state) => state.folders.folders)
   const dispatch = useDispatch()
   const [foldersLoading, setFoldersLoading] = React.useState(false)
 
@@ -21,11 +21,11 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <Sidebar folders={state.folders} loading={foldersLoading} />
+        <Sidebar folders={folders} loading={foldersLoading} />
         <div className="content">
           <Switch>
             <Route path={'/todos/:folderId?'}>
-              <FolderPage folders={state.folders} />
+              <FolderPage folders={folders} />
             </Route>
             <Redirect to={'/todos'} />
           </Switch>
