@@ -51,7 +51,6 @@ const SidebarItem = ({
   async function onDelete() {
     setDeleteLoading(true)
     await dispatch(deleteFolder(props.folderId))
-    setDeleteLoading(false)
   }
 
   return (
