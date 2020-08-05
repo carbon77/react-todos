@@ -1,3 +1,5 @@
+import todosAPI from '../api/todos.api'
+
 // Action types
 const SET_TODOS = 'SET_TODOS'
 const ADD_TODO = 'ADD_TODO'
@@ -53,23 +55,56 @@ export function setTodos(todos) {
   }
 }
 
-export function addTodo(todo) {
+export function addTodoActionCreator(todo) {
   return {
     type: ADD_TODO,
     payload: todo,
   }
 }
 
-export function deleteTodo(id) {
+export function deleteTodoActionCreator(id) {
   return {
     type: DELETE_TODO,
     payload: { id },
   }
 }
 
-export function updateTodo(id, options) {
+export function updateTodoActionCreator(id, options) {
   return {
     type: UPDATE_TODO,
     payload: { id, options },
+  }
+}
+
+// Thunks
+export function fetchTodos() {
+  return (dispatch) => {
+    return todosAPI.fetchTodos().then((todos) => {
+      dispatch(setTodos(todos))
+    })
+  }
+}
+
+export function addTodo(todo) {
+  return (dispatch) => {
+    return todosAPI.createTodo(todo.folderId, todo.text).then((newTodo) => {
+      dispatch(addTodoActionCreator(newTodo))
+    })
+  }
+}
+
+export function deleteTodo(id) {
+  return (dispatch) => {
+    return todosAPI.deleteTodo(id).then(() => {
+      dispatch(deleteTodoActionCreator(id))
+    })
+  }
+}
+
+export function updateTodo(id, options) {
+  return (dispatch) => {
+    return todosAPI.updateTodo(id, options).then(() => {
+      dispatch(updateTodoActionCreator(id, options))
+    })
   }
 }
