@@ -13,9 +13,14 @@ const FolderForm = ({ folderId, onClose }) => {
 
   async function onSubmit(event) {
     event.preventDefault()
-
     setLoading(true)
-    await dispatch(addTodo(folderId, todoText))
+
+    const todo = {
+      folderId,
+      text: todoText,
+    }
+
+    await dispatch(addTodo(todo))
     setLoading(false)
     onClose()
   }
