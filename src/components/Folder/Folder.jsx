@@ -4,6 +4,7 @@ import './Folder.sass'
 import FolderHeader from './FolderHeader/FolderHeader'
 import Todo from '../Todo/Todo'
 import FolderForm from './FolderForm/FolderForm'
+import Icon from '../Icon/Icon'
 
 const Folder = (props) => {
   const [showForm, setShowForm] = React.useState(false)
@@ -27,7 +28,7 @@ const Folder = (props) => {
             className="folder__todo text-muted"
             onClick={() => setShowForm(true)}
           >
-            <span className="material-icons">add</span>
+            <Icon icon={'add'} />
             <div className="folder__todo-text">New task</div>
           </div>
         )}

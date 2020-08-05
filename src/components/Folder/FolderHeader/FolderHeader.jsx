@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import Input from '../../Input/Input'
 import Fade from '../../Fade/Fade'
 import { updateFolder } from '../../../store/folders.reducer'
+import Icon from '../../Icon/Icon'
 
 const FolderHeader = ({ folder }) => {
   const [showEditButton, setShowEditButton] = React.useState(false)
@@ -44,13 +45,11 @@ const FolderHeader = ({ folder }) => {
     >
       {folder.text}
       <Fade in={showEditButton} unmountOnExit duration={150}>
-        <div
-          className="material-icons"
+        <Icon
+          icon={'edit'}
           title={'Edit folder name'}
           onClick={() => setEditMode(true)}
-        >
-          edit
-        </div>
+        />
       </Fade>
     </h1>
   )

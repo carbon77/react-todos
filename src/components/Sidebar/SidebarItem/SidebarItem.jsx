@@ -8,6 +8,7 @@ import './SidebarItem.sass'
 import Loader from '../../Loader/Loader'
 import Fade from '../../Fade/Fade'
 import { deleteFolder } from '../../../store/folders.reducer'
+import Icon from '../../Icon/Icon'
 
 const SidebarItem = ({
   text,
@@ -31,7 +32,7 @@ const SidebarItem = ({
       <div className={'sidebar__color'} style={{ backgroundColor: info }} />
     )
   } else {
-    infoElem = <span className="material-icons">{info}</span>
+    infoElem = <Icon icon={info} />
   }
 
   function onItemClick(event) {
@@ -68,13 +69,11 @@ const SidebarItem = ({
             {deleteLoading ? (
               <Loader inline size={'15px'} borderWidth={2} />
             ) : (
-              <div
-                className="material-icons sidebar__action"
-                title={'Delete folder'}
+              <Icon
+                icon={'delete'}
+                className={'sidebar__action'}
                 onClick={onDelete}
-              >
-                delete
-              </div>
+              />
             )}
           </div>
         </Fade>

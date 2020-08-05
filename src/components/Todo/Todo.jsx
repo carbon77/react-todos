@@ -6,6 +6,7 @@ import Input from '../Input/Input'
 import Loader from '../Loader/Loader'
 import Fade from '../Fade/Fade'
 import { deleteTodo, updateTodo } from '../../store/todos.reducer'
+import Icon from '../Icon/Icon'
 
 const Todo = ({ todo }) => {
   const [completed, setCompleted] = React.useState(todo.completed)
@@ -75,20 +76,16 @@ const Todo = ({ todo }) => {
             <Loader inline size={'15px'} borderWidth={2} />
           ) : (
             <>
-              <span
-                className="material-icons"
+              <Icon
+                icon={'edit'}
                 title={'Change todo text'}
                 onClick={() => setEditMode(true)}
-              >
-                edit
-              </span>
-              <span
-                className={'material-icons folder__close-todo'}
+              />
+              <Icon
+                icon={'close'}
                 title={'Delete todo'}
                 onClick={onDeleteClick}
-              >
-                close
-              </span>
+              />
             </>
           )}
         </div>

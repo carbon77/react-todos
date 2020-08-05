@@ -5,6 +5,7 @@ import './SidebarFolderForm.sass'
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
 import { addFolder } from '../../../store/folders.reducer'
+import Icon from '../../Icon/Icon'
 
 const colors = [
   '#c9c9c9',
@@ -70,9 +71,11 @@ const SidebarFolderForm = ({ onClose }) => {
       <Button type={'submit'} color={'success'} disabled={loading} fluid>
         Add
       </Button>
-      <span className="sidebar__form__close material-icons" onClick={onClose}>
-        close
-      </span>
+      <Icon
+        icon={'close'}
+        className={'sidebar__form__close'}
+        onClick={onClose}
+      />
     </form>
   )
 }

@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import './Input.sass'
 import { COLORS } from '../../assets/js/_colors'
+import Icon from '../Icon/Icon'
 
 const Input = ({ type, className, color, error, onChange, ...props }) => {
   const classes = classNames('form-control', className, {
@@ -22,7 +23,7 @@ const Input = ({ type, className, color, error, onChange, ...props }) => {
       <>
         <label className={classes}>
           <input type="checkbox" checked={props.checked} onChange={onChange} />
-          <span className="material-icons">done</span>
+          <Icon icon={'done'} />
           {!!props.title && props.title}
         </label>
         <div className="form-control__errors">{error}</div>
