@@ -10,23 +10,17 @@ const Folder = (props) => {
 
   return (
     <div className={'folder'}>
-      <FolderHeader folder={props.folder} updateFolder={props.updateFolder} />
+      <FolderHeader folder={props.folder} />
       <hr />
       <div className="folder__todos">
         {props.todos.map((todo) => (
-          <Todo
-            key={todo.id}
-            todo={todo}
-            deleteTodo={props.deleteTodo}
-            updateTodo={props.updateTodo}
-          />
+          <Todo key={todo.id} todo={todo} />
         ))}
 
         {showForm ? (
           <FolderForm
             folderId={props.folder.id}
             onClose={() => setShowForm(false)}
-            createTodo={props.createTodo}
           />
         ) : (
           <div

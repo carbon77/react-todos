@@ -35,7 +35,6 @@ const Sidebar = (props) => {
               text={folder.text}
               info={folder.icon || folder.color}
               to={`/todos/${folder.id}`}
-              deleteFolder={props.deleteFolder}
               folderId={folder.id}
               actions
               active={`/todos/${folder.id}` === location.pathname}
@@ -55,10 +54,7 @@ const Sidebar = (props) => {
             unmountOnExit
             classNames={'sidebar__form'}
           >
-            <SidebarFolderForm
-              addFolder={props.addFolder}
-              onClose={() => setIsFormShowed(false)}
-            />
+            <SidebarFolderForm onClose={() => setIsFormShowed(false)} />
           </CSSTransition>
         </ul>
       )}

@@ -1,17 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import './FolderPage.sass'
-import todosReducer from '../../store/todos.reducer'
-import todosAPI from '../../api/todos.api'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
+import { fetchTodos } from '../../store/todos.reducer'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
-  const [state, dispatch] = React.useReducer(todosReducer, { todos: [] })
   const [loading, setLoading] = React.useState(false)
+  const todos = useSelector((state) => state.todos.todos)
   const { folderId } = useParams()
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
     setLoading(true)
@@ -25,47 +26,10 @@ const FolderPage = (props) => {
       setCurrentFolders(props.folders)
     }
 
-    todosAPI.fetchTodos(folderId).then((todos) => {
-      dispatch({
-        type: 'SET_TODOS',
-        payload: { todos },
-      })
+    dispatch(fetchTodos()).then(() => {
       setLoading(false)
     })
-  }, [folderId, props.folders])
-
-  async function deleteTodo(id, callback) {
-    await todosAPI
-      .deleteTodo(id)
-      .then(callback)
-      .then(() => {
-        dispatch({
-          type: 'DELETE_TODO',
-          payload: { id },
-        })
-      })
-  }
-
-  async function createTodo(id, text) {
-    await todosAPI.createTodo(id, text).then((todo) => {
-      dispatch({
-        type: 'ADD_TODO',
-        payload: { ...todo },
-      })
-    })
-  }
-
-  async function updateTodo(id, options) {
-    await todosAPI.updateTodo(id, options).then(() => {
-      dispatch({
-        type: 'UPDATE_TODO',
-        payload: {
-          id,
-          options,
-        },
-      })
-    })
-  }
+  }, [folderId, props.folders, dispatch])
 
   return (
     <div className={'folders'}>
@@ -82,13 +46,7 @@ const FolderPage = (props) => {
               <Folder
                 key={folder.id}
                 folder={folder}
-                todos={state.todos.filter(
-                  (todo) => todo.folderId === folder.id
-                )}
-                updateFolder={props.updateFolder}
-                deleteTodo={deleteTodo}
-                createTodo={createTodo}
-                updateTodo={updateTodo}
+                todos={todos.filter((todo) => todo.folderId === folder.id)}
               />
             ))
           )}

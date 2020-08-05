@@ -1,4 +1,4 @@
-import API from './index'
+import API from './'
 
 export default {
   fetchTodos(folderId = null) {
@@ -9,10 +9,6 @@ export default {
     return API.get(`/todos?folderId=${folderId}`).then((response) =>
       response.json()
     )
-  },
-
-  getTodos(id) {
-    return API.get(`/todos/${id}`).then((response) => response.json())
   },
 
   createTodo(folderId, text) {
