@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import './SidebarFolderForm.sass'
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
-import { addFolder } from '../../../store/folders.reducer'
+import { addFolder } from '../../../store/folders/actions'
 import Icon from '../../Icon/Icon'
 
 const colors = [

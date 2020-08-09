@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './FolderPage.sass'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
-import { fetchTodos } from '../../store/todos.reducer'
+import { fetchTodos } from '../../store/todos/actions'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])

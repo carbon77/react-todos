@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import Input from '../Input/Input'
 import Loader from '../Loader/Loader'
 import Fade from '../Fade/Fade'
-import { deleteTodo, updateTodo } from '../../store/todos.reducer'
+import { deleteTodo, updateTodo } from '../../store/todos/actions'
 import Icon from '../Icon/Icon'
 
 const Todo = ({ todo }) => {

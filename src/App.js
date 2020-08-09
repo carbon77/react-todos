@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Sidebar from './components/Sidebar/Sidebar'
 import FolderPage from './components/FolderPage/FolderPage'
-import { fetchFolders } from './store/folders.reducer'
+import { fetchFolders } from './store/folders/actions'
 
 function App() {
   const folders = useSelector((state) => state.folders.folders)
