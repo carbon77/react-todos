@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import './SidebarItem.sass'
 import Loader from '../../Loader/Loader'
 import Fade from '../../Fade/Fade'
-import { deleteFolder } from '../../../store/folders.reducer'
+import { deleteFolder } from '../../../store/folders/actions'
 import Icon from '../../Icon/Icon'
 
 const SidebarItem = ({

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import Input from '../../Input/Input'
 import Fade from '../../Fade/Fade'
-import { updateFolder } from '../../../store/folders.reducer'
+import { updateFolder } from '../../../store/folders/actions'
 import Icon from '../../Icon/Icon'
 
 const FolderHeader = ({ folder }) => {

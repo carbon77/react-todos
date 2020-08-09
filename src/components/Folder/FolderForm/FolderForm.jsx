@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import Input from '../../Input/Input'
 import Button from '../../Button/Button'
-import { addTodo } from '../../../store/todos.reducer'
+import { addTodo } from '../../../store/todos/actions'
 
 const FolderForm = ({ folderId, onClose }) => {
   const [todoText, setTodoText] = React.useState('')
