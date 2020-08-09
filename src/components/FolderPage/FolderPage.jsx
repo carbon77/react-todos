@@ -6,11 +6,12 @@ import './FolderPage.sass'
 import Folder from '../Folder/Folder'
 import Loader from '../Loader/Loader'
 import { fetchTodos } from '../../store/todos/actions'
+import { todosSelectors } from '../../store/todos/selectors'
 
 const FolderPage = (props) => {
   const [currentFolders, setCurrentFolders] = React.useState([])
   const [loading, setLoading] = React.useState(false)
-  const todos = useSelector((state) => state.todos.todos)
+  const todos = useSelector(todosSelectors)
   const { folderId } = useParams()
   const dispatch = useDispatch()
 
